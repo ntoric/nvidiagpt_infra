@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-nvidiagpt}
       POSTGRES_DB: nvidiagpt
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ./pgdata:/var/lib/postgresql/data
     networks:
       - internal
     healthcheck:
@@ -30,7 +30,7 @@ services:
     restart: unless-stopped
     command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
     volumes:
-      - redisdata:/data
+      - ./redisdata:/data
     networks:
       - internal
     healthcheck:
@@ -49,7 +49,7 @@ services:
     container_name: nvidiagpt-backend
     restart: unless-stopped
     env_file:
-      - ./backend/.env
+      - ./.env
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
@@ -88,6 +88,3 @@ networks:
   web:
     driver: bridge
 
-volumes:
-  pgdata:
-  redisdata:
